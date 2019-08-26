@@ -2,7 +2,7 @@
   "name": "atm-ticket-scanner",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://allegro.tech/atm-event-app/scanner",
+  "homepage": "https://allegro.tech/atm-event-scanner/",
   "dependencies": {
     "firebase": "^6.4.2",
     "gh-pages": "^2.1.1",
