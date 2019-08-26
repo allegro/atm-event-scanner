@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.css": "/atm-event-app/scanner/static/css/main.aafb7e44.chunk.css",
-    "main.js": "/atm-event-app/scanner/static/js/main.1379356b.chunk.js",
-    "main.js.map": "/atm-event-app/scanner/static/js/main.1379356b.chunk.js.map",
-    "runtime~main.js": "/atm-event-app/scanner/static/js/runtime~main.cc592acb.js",
-    "runtime~main.js.map": "/atm-event-app/scanner/static/js/runtime~main.cc592acb.js.map",
-    "static/js/2.d6905ba8.chunk.js": "/atm-event-app/scanner/static/js/2.d6905ba8.chunk.js",
-    "static/js/2.d6905ba8.chunk.js.map": "/atm-event-app/scanner/static/js/2.d6905ba8.chunk.js.map",
-    "index.html": "/atm-event-app/scanner/index.html",
-    "precache-manifest.1fe3a374c33a49fe8a401499d873fbff.js": "/atm-event-app/scanner/precache-manifest.1fe3a374c33a49fe8a401499d873fbff.js",
-    "service-worker.js": "/atm-event-app/scanner/service-worker.js",
-    "static/css/main.aafb7e44.chunk.css.map": "/atm-event-app/scanner/static/css/main.aafb7e44.chunk.css.map",
-    "static/media/scanner.svg": "/atm-event-app/scanner/static/media/scanner.1798b973.svg"
+    "main.css": "/atm-event-scanner/static/css/main.aafb7e44.chunk.css",
+    "main.js": "/atm-event-scanner/static/js/main.d4754f8a.chunk.js",
+    "main.js.map": "/atm-event-scanner/static/js/main.d4754f8a.chunk.js.map",
+    "runtime~main.js": "/atm-event-scanner/static/js/runtime~main.cce9d11e.js",
+    "runtime~main.js.map": "/atm-event-scanner/static/js/runtime~main.cce9d11e.js.map",
+    "static/js/2.d6905ba8.chunk.js": "/atm-event-scanner/static/js/2.d6905ba8.chunk.js",
+    "static/js/2.d6905ba8.chunk.js.map": "/atm-event-scanner/static/js/2.d6905ba8.chunk.js.map",
+    "index.html": "/atm-event-scanner/index.html",
+    "precache-manifest.9f0fb78a4212601c88902cc72dc31765.js": "/atm-event-scanner/precache-manifest.9f0fb78a4212601c88902cc72dc31765.js",
+    "service-worker.js": "/atm-event-scanner/service-worker.js",
+    "static/css/main.aafb7e44.chunk.css.map": "/atm-event-scanner/static/css/main.aafb7e44.chunk.css.map",
+    "static/media/scanner.svg": "/atm-event-scanner/static/media/scanner.1798b973.svg"
   }
 }
