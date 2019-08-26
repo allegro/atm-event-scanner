@@ -1,0 +1,39 @@
+{
+  "name": "atm-ticket-scanner",
+  "version": "0.1.0",
+  "private": true,
+  "homepage": "https://allegro.tech/atm-event-app/scanner",
+  "dependencies": {
+    "firebase": "^6.4.2",
+    "gh-pages": "^2.1.1",
+    "qrcode": "^1.4.0",
+    "react": "^16.9.0",
+    "react-dom": "^16.9.0",
+    "react-qr-reader": "^2.2.1",
+    "react-scripts": "3.1.1",
+    "tone": "^13.4.9"
+  },
+  "scripts": {
+    "start": "react-scripts start",
+    "build": "react-scripts build && cp ./build/index.html ./build/404.html",
+    "predeploy": "npm run build",
+    "deploy": "gh-pages -d build",
+    "test": "react-scripts test --env=jsdom",
+    "eject": "react-scripts eject"
+  },
+  "eslintConfig": {
+    "extends": "react-app"
+  },
+  "browserslist": {
+    "production": [
+      ">0.2%",
+      "not dead",
+      "not op_mini all"
+    ],
+    "development": [
+      "last 1 chrome version",
+      "last 1 firefox version",
+      "last 1 safari version"
+    ]
+  }
+}

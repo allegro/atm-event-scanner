@@ -1,0 +1,20 @@
+.scan-result-container {
+    padding: 2em;
+}
+
+.result-icon svg {
+    width: 4em;
+    margin-right: .5em;
+}
+
+.ticket-data {
+    font-size: 1.5em;
+    padding: 0 0 1em;
+}
+
+.result-row {
+    display: flex;
+    align-items: center;
+    margin-bottom: 1em;
+    text-align: left;
+}
