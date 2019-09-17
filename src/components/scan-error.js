@@ -17,7 +17,7 @@ export default class ScanError extends React.Component {
         return <div className="scan-error-container">
             <Negative />
             <div className="scan-error-msg">{error}</div>
-            <Button onClick={onReset}>↺ scan again</Button>
+            <Button onClick={onReset}>scan again</Button>
         </div>;
     }
 }

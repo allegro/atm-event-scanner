@@ -1,10 +1,10 @@
-import React from 'react';
-import logo from '../scanner.svg';
+import React, { Fragment } from 'react';
 import './app.css';
 
 import Scanner from './scanner';
 import ScanResult from './scan-result';
 import ScanError from './scan-error';
+import Settings from './settings-panel';
 
 export default class App extends React.Component {
     state = {
@@ -34,7 +34,8 @@ export default class App extends React.Component {
     };
 
     renderContent() {
-        const { result, error } = this.state;
+        const { state, props } = this;
+        const { result, error } = state;
 
         if (result) {
             return <ScanResult result={result} onReset={this.continueScanning} />;
@@ -44,15 +45,17 @@ export default class App extends React.Component {
             return <ScanError error={error} onReset={this.continueScanning} />
         }
 
-        return <Scanner onError={this.handleError} onScan={this.handleScan} />;
+        return <Fragment>
+            <Scanner onError={this.handleError} onScan={this.handleScan} />
+            <Settings {...props} />
+        </Fragment>;
     }
 
     render() {
         return (
             <div className="App">
                 <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo"/>
-                    ATM Ticket Scanner
+                    atm12 scnr
                 </header>
                 <main className="App-main">{this.renderContent()}</main>
             </div>

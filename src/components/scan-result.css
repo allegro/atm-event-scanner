@@ -1,15 +1,23 @@
 .scan-result-container {
-    padding: 2em;
+    padding: 12px;
 }
 
 .result-icon svg {
-    width: 4em;
+    width: 40px;
     margin-right: .5em;
 }
 
 .ticket-data {
-    font-size: 1.5em;
-    padding: 0 0 1em;
+    font-size: 2.25em;
+    margin-bottom: .5em;
+}
+
+.ticket-data-name {
+    font-weight: bold;
+    text-transform: uppercase;
+    color: #000;
+    word-spacing: 100vw;
+    overflow: hidden;
 }
 
 .result-row {
@@ -17,4 +25,13 @@
     align-items: center;
     margin-bottom: 1em;
     text-align: left;
+}
+
+.ticket-type {
+    margin-top: .25em;
+    padding: .25em;
+    color: #fff;
+    font-weight: bold;
+    text-align: center;
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.7);
 }

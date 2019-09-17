@@ -1,9 +1,8 @@
 export default class TicketData {
-    constructor({ uid, name, tshirt, error }) {
+    constructor({ uid, name, type, error }) {
         this.uid = uid;
         this.name = name;
-        this.tshirt = tshirt;
-
+        this.type = type;
         this.error = error;
     }
 

@@ -1,11 +1,8 @@
 import ValidationResult from './validation-result';
 import TicketData from './ticket-data';
 
-import checkOnline from './check-firebase';
-import checkHash from './check-hash';
-
 export default class Validator {
-    constructor({ checks = [] }) {
+    constructor(checks = []) {
         this.checks = checks;
     }
 
@@ -24,10 +21,5 @@ export default class Validator {
         });
 
         return validationResult;
-    }
-
-    static getDefault() {
-        const checks = [ checkHash, checkOnline ];
-        return new Validator({ checks })
     }
 }
