@@ -30,9 +30,9 @@ function CheckResult({ name, result }) {
 
 function BandType({ type }) {
     const availableTypes = {
-        STAFF: '#5f2799',
-        SPEAKER: '#5f2799',
-        REGULAR: '#a7168f'
+        STAFF: '#a7168f',
+        SPEAKER: '#a7168f',
+        REGULAR: '#1e2980'
     };
     const typeToShow = availableTypes.hasOwnProperty(type) ? type : 'REGULAR';
     const color = availableTypes[typeToShow];
