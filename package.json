@@ -4,14 +4,14 @@
   "private": true,
   "homepage": "https://allegro.tech/atm-event-scanner",
   "dependencies": {
-    "firebase": "^6.4.2",
-    "gh-pages": "^2.1.1",
-    "qrcode": "^1.4.0",
-    "react": "^16.9.0",
-    "react-dom": "^16.9.0",
+    "firebase": "^8.10.1",
+    "gh-pages": "^4.0.0",
+    "qrcode": "^1.5.1",
+    "react": "17.0.2",
+    "react-dom": "17.0.2",
     "react-qr-reader": "^2.2.1",
-    "react-scripts": "3.1.1",
-    "tone": "^13.4.9"
+    "react-scripts": "5.0.1",
+    "tone": "^14.7.77"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -20,9 +20,6 @@
     "deploy": "gh-pages -d build",
     "test": "react-scripts test --env=jsdom",
     "eject": "react-scripts eject"
-  },
-  "eslintConfig": {
-    "extends": "react-app"
   },
   "browserslist": {
     "production": [

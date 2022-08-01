@@ -1,7 +1,7 @@
-import Tone from "tone";
+import { Synth } from "tone";
 
 function playSound(tone, length) {
-    const synth = new Tone.Synth().toMaster();
+    const synth = new Synth().toDestination();
     synth.triggerAttackRelease(tone, length);
 }
 

@@ -55,7 +55,7 @@ export default class App extends React.Component {
         return (
             <div className="App">
                 <header className="App-header">
-                    atm12 scnr
+                    atm15 scnr
                 </header>
                 <main className="App-main">{this.renderContent()}</main>
             </div>
