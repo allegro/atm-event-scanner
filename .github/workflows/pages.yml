@@ -26,8 +26,8 @@ jobs:
           node-version: 18
           cache: 'npm'
       - run: npm ci --legacy-peer-deps
-      - run: touch dist/.nojekyll
       - run: npm run build
+      - run: touch dist/.nojekyll
       - uses: actions/configure-pages@v2
       - uses: actions/upload-pages-artifact@v1
         with:
