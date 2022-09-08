@@ -23,6 +23,7 @@ export default function App() {
                 </Container>
                 <QrReader
                     delay={300}
+                    facingMode="rear"
                     style={{
                         border: getBorderColor(state, theme),
                         minWidth: '100%',
