@@ -3,6 +3,8 @@ import { Alert, Button, Container, MantineTheme, Stack, Title, useMantineTheme }
 import { Synth } from "tone";
 import { useTimeout } from "@mantine/hooks";
 import { useState } from "react";
+import lookupOnline from './lookup-online.json'
+import lookupOffline from './lookup-offline.json'
 
 type TicketState = 'valid' | 'invalid' | undefined;
 
@@ -10,7 +12,7 @@ export default function App() {
     const theme = useMantineTheme();
     const [state, setState] = useState<TicketState>();
     const { start, clear } = useTimeout(() => setState(undefined), 1000);
-    getBorderColor(state, theme);
+
     return (
         <Container>
             <Stack>
@@ -29,28 +31,24 @@ export default function App() {
                     constraints={{ facingMode: 'environment' }}
                     onResult={(result, error) => {
                         if (!!result) {
-                            const text = result.getText();
-                            if (text.match(/[0-9a-f]+;(Poznań|Warszaw|Kraków)/)) {
-                                console.log(text);
+                            const qrContent = result.getText();
+                            if (qrContent.match(/;(Poznań|Warszaw|Kraków)$/)) {
+                                if ([...lookupOnline, ...lookupOffline].includes(qrContent)) {
+                                    clear();
+                                    setState('valid');
+                                    playSuccessSound();
+                                    start();
+                                } else {
+                                    clear();
+                                    setState('invalid');
+                                    playErrorSound();
+                                    start();
+                                }
                             }
                         }
                     }}
                 />
                 <ScanningResult state={state}/>
-                <Button onClick={() => {
-                    clear();
-                    setState('valid');
-                    playSuccessSound();
-                    start();
-                }}>OK!
-                </Button>
-                <Button color="red" onClick={() => {
-                    clear();
-                    setState('invalid');
-                    playErrorSound();
-                    start();
-                }}>ERROR!</Button>
-
             </Stack>
         </Container>
     )
