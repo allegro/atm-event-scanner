@@ -1,5 +1,5 @@
 import { QrReader } from "react-qr-reader";
-import { Alert, Button, Container, MantineTheme, Stack, Title, useMantineTheme } from "@mantine/core";
+import { Alert, Container, MantineTheme, Stack, Title, useMantineTheme } from "@mantine/core";
 import { Synth } from "tone";
 import { useTimeout } from "@mantine/hooks";
 import { useState } from "react";
@@ -7,6 +7,7 @@ import lookupOnline from './lookup-online.json'
 import lookupOffline from './lookup-offline.json'
 
 type TicketState = 'valid' | 'invalid' | undefined;
+const encoder = new TextEncoder();
 
 export default function App() {
     const theme = useMantineTheme();
@@ -33,17 +34,19 @@ export default function App() {
                         if (!!result) {
                             const qrContent = result.getText();
                             if (qrContent.match(/;(Poznań|Warszaw|Kraków)$/)) {
-                                if ([...lookupOnline, ...lookupOffline].includes(qrContent)) {
-                                    clear();
-                                    setState('valid');
-                                    playSuccessSound();
-                                    start();
-                                } else {
-                                    clear();
-                                    setState('invalid');
-                                    playErrorSound();
-                                    start();
-                                }
+                                digestMessage(qrContent).then(digest => {
+                                    if ([...lookupOnline, ...lookupOffline].includes(digest)) {
+                                        clear();
+                                        setState('valid');
+                                        playSuccessSound();
+                                        start();
+                                    } else {
+                                        clear();
+                                        setState('invalid');
+                                        playErrorSound();
+                                        start();
+                                    }
+                                })
                             }
                         }
                     }}
@@ -52,6 +55,13 @@ export default function App() {
             </Stack>
         </Container>
     )
+}
+
+async function digestMessage(message: string) {
+    const msgUint8 = new TextEncoder().encode(message);
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
 }
 
 function ScanningResult({ state }: { state: TicketState }) {
