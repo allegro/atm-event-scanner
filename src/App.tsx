@@ -1,10 +1,11 @@
-import { QrReader } from "react-qr-reader";
 import { Alert, Container, MantineTheme, Stack, Title, useMantineTheme } from "@mantine/core";
 import { Synth } from "tone";
 import { useTimeout } from "@mantine/hooks";
 import { useState } from "react";
 import lookupOnline from './lookup-online.json'
 import lookupOffline from './lookup-offline.json'
+// @ts-ignore
+import QrReader from 'react-qr-scanner'
 
 type TicketState = 'valid' | 'invalid' | undefined;
 const encoder = new TextEncoder();
@@ -21,18 +22,16 @@ export default function App() {
                     <Title>ATM Tickets</Title>
                 </Container>
                 <QrReader
-                    scanDelay={300}
-                    containerStyle={{
+                    delay={300}
+                    style={{
                         border: getBorderColor(state, theme),
                         minWidth: '100%',
                         boxSizing: 'border-box',
                         transition: 'border 0.2s ease-out'
                     }}
-                    videoStyle={{ width: 'auto' }}
-                    constraints={{ facingMode: 'environment' }}
-                    onResult={(result, error) => {
-                        if (!!result) {
-                            const qrContent = result.getText();
+                    onError={console.error}
+                    onScan={(qrContent: string) => {
+                        if (!!qrContent) {
                             if (qrContent.match(/;(Poznań|Warszaw|Kraków)$/)) {
                                 digestMessage(qrContent).then(digest => {
                                     if ([...lookupOnline, ...lookupOffline].includes(digest)) {
