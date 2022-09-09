@@ -11,10 +11,6 @@ html, body, #root {
     border: none !important;
 }
 
-#scanner__dashboard{
-    display: none;
-}
-
 #scanner__scan_region {
     margin-bottom: -6px;
 }
