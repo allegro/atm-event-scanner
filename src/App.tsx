@@ -1,14 +1,12 @@
 import { Alert, Container, MantineTheme, Stack, Title, useMantineTheme } from "@mantine/core";
 import { Synth } from "tone";
 import { useTimeout } from "@mantine/hooks";
-import { useState } from "react";
+import React, { useState } from "react";
 import lookupOnline from './lookup-online.json'
 import lookupOffline from './lookup-offline.json'
-// @ts-ignore
-import QrReader from 'react-qr-scanner'
+import Scanner from "./Scanner";
 
 type TicketState = 'valid' | 'invalid' | undefined;
-const encoder = new TextEncoder();
 
 export default function App() {
     const theme = useMantineTheme();
@@ -21,40 +19,42 @@ export default function App() {
                 <Container mt="lg">
                     <Title>ATM Tickets</Title>
                 </Container>
-                <QrReader
-                    delay={300}
-                    facingMode="rear"
-                    style={{
-                        border: getBorderColor(state, theme),
-                        minWidth: '100%',
-                        boxSizing: 'border-box',
-                        transition: 'border 0.2s ease-out'
-                    }}
-                    onError={console.error}
-                    onScan={(qrContent: string) => {
-                        if (!!qrContent) {
-                            if (qrContent.match(/;(Poznań|Warszaw|Kraków)$/)) {
-                                digestMessage(qrContent).then(digest => {
-                                    if ([...lookupOnline, ...lookupOffline].includes(digest)) {
-                                        clear();
-                                        setState('valid');
-                                        playSuccessSound();
-                                        start();
-                                    } else {
-                                        clear();
-                                        setState('invalid');
-                                        playErrorSound();
-                                        start();
-                                    }
-                                })
-                            }
-                        }
-                    }}
-                />
+                <div style={{
+                    border: getBorderColor(state, theme),
+                    boxSizing: 'border-box',
+                    transition: 'border 0.2s ease-out'
+                }}>
+                    <Scanner
+                        qrCodeErrorCallback={(errorMessage, error) => {
+                        }}
+                        qrCodeSuccessCallback={(result) => handleScan(result, clear, setState, start)}
+                    />
+                </div>
                 <ScanningResult state={state}/>
             </Stack>
         </Container>
     )
+}
+
+function handleScan(text: string,
+                    clear: () => void,
+                    setState: React.Dispatch<React.SetStateAction<TicketState>>,
+                    start: () => void) {
+    if (!!text) {
+        digestMessage(text).then(digest => {
+            if ([...lookupOnline, ...lookupOffline].includes(digest)) {
+                clear();
+                setState('valid');
+                playSuccessSound();
+                start();
+            } else {
+                clear();
+                setState('invalid');
+                playErrorSound();
+                start();
+            }
+        })
+    }
 }
 
 async function digestMessage(message: string) {
