@@ -15,7 +15,7 @@ export default function Scanner({
             disableFlip: undefined,
             experimentalFeatures: undefined,
             formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
-            fps: 2,
+            fps: undefined,
             qrbox: undefined,
             rememberLastUsedCamera: true,
             supportedScanTypes: [],

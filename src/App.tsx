@@ -54,7 +54,7 @@ function handleScan(text: string,
                     playErrorSound();
                 }
             })
-            .then(() => new Promise(resolve => setTimeout(resolve, 1500)))
+            .then(() => new Promise(resolve => setTimeout(resolve, 1000)))
             .finally(() => {
                 scannerState = ScannerState.idle;
                 setBorderState(ScannerState.idle);
