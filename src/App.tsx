@@ -2,8 +2,6 @@ import { Alert, Container, MantineTheme, Stack, Title, useMantineTheme } from "@
 import { Synth } from "tone";
 import { useTimeout } from "@mantine/hooks";
 import React, { useState } from "react";
-import lookupOnline from './lookup-online.json'
-import lookupOffline from './lookup-offline.json'
 import Scanner from "./Scanner";
 
 type TicketState = 'valid' | 'invalid' | undefined;
@@ -25,8 +23,7 @@ export default function App() {
                     transition: 'border 0.2s ease-out'
                 }}>
                     <Scanner
-                        qrCodeErrorCallback={(errorMessage, error) => {
-                        }}
+                        qrCodeErrorCallback={(_, __) => undefined}
                         qrCodeSuccessCallback={(result) => handleScan(result, clear, setState, start)}
                     />
                 </div>
@@ -41,8 +38,13 @@ function handleScan(text: string,
                     setState: React.Dispatch<React.SetStateAction<TicketState>>,
                     start: () => void) {
     if (!!text) {
-        digestMessage(text).then(digest => {
-            if ([...lookupOnline, ...lookupOffline].includes(digest)) {
+        const controller = new AbortController();
+        const timeoutId = setTimeout(() => controller.abort(), 500);
+        const target = new URL('https://us-central1-atm2021-76ccb.cloudfunctions.net/ticketVerfication2022');
+        target.searchParams.append('ticket', text);
+        fetch(target, { signal: controller.signal }).then(response => {
+            clearTimeout(timeoutId);
+            if (response.status === 200) {
                 clear();
                 setState('valid');
                 playSuccessSound();
@@ -53,15 +55,8 @@ function handleScan(text: string,
                 playErrorSound();
                 start();
             }
-        })
+        });
     }
-}
-
-async function digestMessage(message: string) {
-    const msgUint8 = new TextEncoder().encode(message);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
 }
 
 function ScanningResult({ state }: { state: TicketState }) {

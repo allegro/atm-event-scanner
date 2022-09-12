@@ -14,7 +14,7 @@ export default function Scanner({
             disableFlip: undefined,
             experimentalFeatures: undefined,
             formatsToSupport: undefined,
-            fps: undefined,
+            fps: 2,
             qrbox: undefined,
             rememberLastUsedCamera: undefined,
             supportedScanTypes: [],
