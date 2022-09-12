@@ -1,16 +1,17 @@
 import { Alert, Container, MantineTheme, Stack, Title, useMantineTheme } from "@mantine/core";
 import { Synth } from "tone";
-import { useTimeout } from "@mantine/hooks";
 import React, { useState } from "react";
 import Scanner from "./Scanner";
 
-type TicketState = 'valid' | 'invalid' | undefined;
+enum ScannerState {
+    'idle', 'loading', 'valid', 'invalid'
+}
+
+let scannerState = ScannerState.idle;
 
 export default function App() {
     const theme = useMantineTheme();
-    const [state, setState] = useState<TicketState>();
-    const { start, clear } = useTimeout(() => setState(undefined), 1000);
-
+    const [borderState, setBorderState] = useState<ScannerState>(ScannerState.idle);
     return (
         <Container>
             <Stack>
@@ -18,60 +19,69 @@ export default function App() {
                     <Title>ATM Tickets</Title>
                 </Container>
                 <div style={{
-                    border: getBorderColor(state, theme),
+                    border: getBorderColor(borderState, theme),
                     boxSizing: 'border-box',
                     transition: 'border 0.2s ease-out'
                 }}>
                     <Scanner
                         qrCodeErrorCallback={(_, __) => undefined}
-                        qrCodeSuccessCallback={(result) => handleScan(result, clear, setState, start)}
+                        qrCodeSuccessCallback={(result) => handleScan(result, scannerState, setBorderState)}
                     />
                 </div>
-                <ScanningResult state={state}/>
+                <ScanningResult state={borderState}/>
             </Stack>
         </Container>
     )
 }
 
 function handleScan(text: string,
-                    clear: () => void,
-                    setState: React.Dispatch<React.SetStateAction<TicketState>>,
-                    start: () => void) {
-    if (!!text) {
-        const controller = new AbortController();
-        const timeoutId = setTimeout(() => controller.abort(), 500);
+                    state: ScannerState | undefined,
+                    setBorderState: React.Dispatch<React.SetStateAction<ScannerState>>
+) {
+    if (state === ScannerState.idle && !!text) {
+        scannerState = ScannerState.loading;
+        setBorderState(ScannerState.loading)
         const target = new URL('https://us-central1-atm2021-76ccb.cloudfunctions.net/ticketVerfication2022');
         target.searchParams.append('ticket', text);
-        fetch(target, { signal: controller.signal }).then(response => {
-            clearTimeout(timeoutId);
-            if (response.status === 200) {
-                clear();
-                setState('valid');
-                playSuccessSound();
-                start();
-            } else {
-                clear();
-                setState('invalid');
-                playErrorSound();
-                start();
-            }
-        });
+        fetch(target)
+            .then(response => response.json())
+            .then(result => {
+                if (result.verified) {
+                    setBorderState(ScannerState.valid);
+                    playSuccessSound();
+                } else {
+                    setBorderState(ScannerState.invalid);
+                    playErrorSound();
+                }
+            })
+            .then(() => new Promise(resolve => setTimeout(resolve, 1500)))
+            .finally(() => {
+                scannerState = ScannerState.idle;
+                setBorderState(ScannerState.idle);
+            });
     }
 }
 
-function ScanningResult({ state }: { state: TicketState }) {
+function ScanningResult({ state }: { state: ScannerState | undefined }) {
     switch (state) {
-        case 'valid': {
+        case ScannerState.valid: {
             return (
                 <Alert title="Miodzio!" color="green">
                     Można wchodzic!
                 </Alert>
             )
         }
-        case 'invalid': {
+        case ScannerState.invalid: {
             return (
                 <Alert title="Ups!" color="red">
                     Bilet niepoprawny.
+                </Alert>
+            )
+        }
+        case ScannerState.loading: {
+            return (
+                <Alert title="Ups!" color="yellow">
+                    Sprawdzanie....
                 </Alert>
             )
         }
@@ -84,16 +94,20 @@ function ScanningResult({ state }: { state: TicketState }) {
     }
 }
 
-function getBorderColor(state: "valid" | "invalid" | undefined, theme: MantineTheme) {
+function getBorderColor(state: ScannerState | undefined, theme: MantineTheme) {
     switch (state) {
-        case 'valid': {
+        case ScannerState.valid: {
             return `10px solid ${theme.colors.green[5]}`;
         }
-        case 'invalid': {
+        case ScannerState.invalid: {
             return `10px solid ${theme.colors.red[5]}`;
         }
-        default:
+        case ScannerState.loading: {
+            return `10px solid ${theme.colors.yellow[5]}`;
+        }
+        case ScannerState.idle: {
             return `10px solid ${theme.colors.gray[5]}`;
+        }
     }
 }
 

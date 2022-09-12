@@ -1,6 +1,7 @@
 import React, { useEffect } from 'react';
 import { Html5QrcodeScanner } from "html5-qrcode";
-import { QrcodeErrorCallback, QrcodeSuccessCallback } from "html5-qrcode/core";
+import { QrcodeErrorCallback, QrcodeSuccessCallback, QrDimensionFunction } from "html5-qrcode/core";
+import { Html5QrcodeSupportedFormats } from "html5-qrcode/esm/core";
 
 const id = 'scanner';
 
@@ -13,10 +14,10 @@ export default function Scanner({
             aspectRatio: undefined,
             disableFlip: undefined,
             experimentalFeatures: undefined,
-            formatsToSupport: undefined,
+            formatsToSupport: [Html5QrcodeSupportedFormats.QR_CODE],
             fps: 2,
             qrbox: undefined,
-            rememberLastUsedCamera: undefined,
+            rememberLastUsedCamera: true,
             supportedScanTypes: [],
             videoConstraints: undefined
         }, true);

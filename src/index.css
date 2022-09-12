@@ -14,3 +14,9 @@ html, body, #root {
 #scanner__scan_region {
     margin-bottom: -6px;
 }
+
+#scanner__dashboard {
+    position: fixed;
+    left: 0;
+    bottom: 20px;
+}
