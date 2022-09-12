@@ -3,8 +3,10 @@ import { Synth } from "tone";
 import React, { useState } from "react";
 import Scanner from "./Scanner";
 
+const synth = new Synth().toDestination();
+
 enum ScannerState {
-    'idle', 'loading', 'valid', 'invalid'
+    'idle', 'loading', 'valid', 'invalid', 'error'
 }
 
 let scannerState = ScannerState.idle;
@@ -54,6 +56,10 @@ function handleScan(text: string,
                     playErrorSound();
                 }
             })
+            .catch((error) => {
+                console.error(error);
+                setBorderState(ScannerState.error);
+            })
             .then(() => new Promise(resolve => setTimeout(resolve, 1000)))
             .finally(() => {
                 scannerState = ScannerState.idle;
@@ -75,6 +81,14 @@ function ScanningResult({ state }: { state: ScannerState | undefined }) {
             return (
                 <Alert title="Ups!" color="red">
                     Bilet niepoprawny.
+                </Alert>
+            )
+        }
+        case ScannerState.error: {
+            return (
+                <Alert title="Ups!" color="red">
+                    Nie udało się sprawdzić biletu.
+                    Prosimy o kontakt z organizatorem.
                 </Alert>
             )
         }
@@ -105,6 +119,9 @@ function getBorderColor(state: ScannerState | undefined, theme: MantineTheme) {
         case ScannerState.loading: {
             return `10px solid ${theme.colors.yellow[5]}`;
         }
+        case ScannerState.error: {
+            return `10px solid ${theme.colors.red[9]}`;
+        }
         case ScannerState.idle: {
             return `10px solid ${theme.colors.gray[5]}`;
         }
@@ -112,7 +129,6 @@ function getBorderColor(state: ScannerState | undefined, theme: MantineTheme) {
 }
 
 function playSound(tone: string, length: string) {
-    const synth = new Synth().toDestination();
     synth.triggerAttackRelease(tone, length);
 }
 
