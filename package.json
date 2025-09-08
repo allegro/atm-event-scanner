@@ -6,20 +6,23 @@
     "build": "tsc && vite build && cp ./dist/index.html ./dist/404.html",
     "preview": "vite preview"
   },
+  "engines": {
+    "node": "^20.19.0 || >=22.12.0"
+  },
   "dependencies": {
     "@emotion/react": "^11.14.0",
     "@mantine/core": "^5.10.5",
     "@mantine/hooks": "^5.10.5",
     "html5-qrcode": "^2.3.8",
-    "react": "^18.3.1",
-    "react-dom": "^18.3.1",
-    "tone": "^14.9.17"
+    "react": "^19.1.1",
+    "react-dom": "^19.1.1",
+    "tone": "^15.1.22"
   },
   "devDependencies": {
-    "@types/react": "^18.3.24",
-    "@types/react-dom": "^18.3.7",
-    "@vitejs/plugin-react": "^2.2.0",
-    "typescript": "^4.9.5",
-    "vite": "^3.2.11"
+    "@types/react": "^19.1.12",
+    "@types/react-dom": "^19.1.9",
+    "@vitejs/plugin-react": "^5.0.2",
+    "typescript": "^5.9.2",
+    "vite": "^7.1.5"
   }
 }

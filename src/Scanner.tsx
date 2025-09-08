@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Html5QrcodeScanner } from "html5-qrcode";
-import { QrcodeErrorCallback, QrcodeSuccessCallback, QrDimensionFunction } from "html5-qrcode/core";
+import { QrcodeErrorCallback, QrcodeSuccessCallback } from "html5-qrcode/core";
 import { Html5QrcodeSupportedFormats } from "html5-qrcode/esm/core";
 
 const id = 'scanner';
